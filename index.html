@@ -1,121 +1,660 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Konverter.no – Valutakonvertering</title>
-  <meta name="description" content="Konverter mellom alle verdens valutaer og kryptovaluta. Daglige kurser, ingen registrering." />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konverter.no – Alle enhetsomregnere</title>
+  <meta name="description" content="Rask og enkel konvertering av valuta, lengde, vekt, temperatur og mye mer. Norsk, gratis og uten reklame.">
+  <style>
+    @font-face {
+      font-family: 'Zeppelin32';
+      src: url('Zeppelin32.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --lys-brun: #b7a99a;
+      --mork-brun: #3D3935;
+      --burgunder: #861f41;
+      --gul: #e1d555;
+      --gronn: #73914e;
+      --bla: #236192;
+      --hvit: #f7f4f0;
+      --tekst: #2a2724;
+      --radius: 3px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Zeppelin32', Arial, sans-serif;
+      background-color: var(--hvit);
+      color: var(--tekst);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background-color: var(--hvit);
+      border-bottom: 1px solid var(--lys-brun);
+      padding: 0 clamp(20px, 5vw, 80px);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Zeppelin32', Arial, sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      color: var(--mork-brun);
+      text-decoration: none;
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+    }
+
+    .logo-konverter {
+      font-size: 13px;
+      color: var(--lys-brun);
+      letter-spacing: 0.12em;
+      margin-left: 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    nav a {
+      font-size: 13px;
+      color: var(--mork-brun);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    nav a:hover { opacity: 1; }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: clamp(48px, 8vw, 100px) clamp(20px, 5vw, 80px) clamp(40px, 6vw, 80px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: end;
+      border-bottom: 1px solid var(--lys-brun);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Speed-stripe grafisk element */
+    .hero::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 38%;
+      height: 100%;
+      background:
+        linear-gradient(180deg, var(--lys-brun) 0%, transparent 40%),
+        linear-gradient(180deg, transparent 30%, var(--bla) 60%, var(--lys-brun) 100%);
+      opacity: 0.13;
+      pointer-events: none;
+    }
+
+    .hero-left {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--burgunder);
+      margin-bottom: 20px;
+    }
+
+    .hero-h1 {
+      font-size: clamp(42px, 6vw, 88px);
+      line-height: 0.95;
+      color: var(--mork-brun);
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+
+    .hero-h1 span {
+      color: var(--burgunder);
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--mork-brun);
+      opacity: 0.7;
+      max-width: 420px;
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-stat {
+      text-align: right;
+    }
+
+    .hero-stat-num {
+      font-size: clamp(36px, 4vw, 56px);
+      color: var(--mork-brun);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--lys-brun);
+      margin-top: 4px;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--lys-brun);
+      margin: 4px auto;
+    }
+
+    /* ─── SEARCH ─── */
+    .search-section {
+      padding: 32px clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid rgba(183,169,154,0.3);
+    }
+
+    .search-wrap {
+      position: relative;
+      max-width: 480px;
+    }
+
+    .search-wrap::before {
+      content: '↗';
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: var(--lys-brun);
+      pointer-events: none;
+    }
+
+    #search {
+      width: 100%;
+      padding: 14px 14px 14px 44px;
+      font-family: 'Zeppelin32', Arial, sans-serif;
+      font-size: 15px;
+      border: 1px solid var(--lys-brun);
+      border-radius: var(--radius);
+      background: white;
+      color: var(--mork-brun);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #search:focus {
+      border-color: var(--mork-brun);
+      box-shadow: 0 0 0 3px rgba(61,57,53,0.08);
+    }
+
+    #search::placeholder {
+      color: var(--lys-brun);
+    }
+
+    /* ─── GRID ─── */
+    .grid-section {
+      padding: clamp(32px, 4vw, 56px) clamp(20px, 5vw, 80px) clamp(48px, 6vw, 80px);
+    }
+
+    .grid-section-title {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--lys-brun);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(183,169,154,0.3);
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      background: rgba(183,169,154,0.3);
+      border: 1px solid rgba(183,169,154,0.3);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .cat-card {
+      background: var(--hvit);
+      padding: 28px 24px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      transition: background 0.18s;
+      overflow: hidden;
+    }
+
+    .cat-card:hover {
+      background: white;
+    }
+
+    .cat-card:focus-visible {
+      outline: 3px solid var(--mork-brun);
+      outline-offset: -3px;
+      z-index: 2;
+    }
+
+    /* Fargestrek øverst per kort */
+    .cat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--stripe-color, var(--lys-brun));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .cat-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .cat-icon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .cat-name {
+      font-size: 17px;
+      color: var(--mork-brun);
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+
+    .cat-examples {
+      font-size: 11px;
+      color: var(--lys-brun);
+      letter-spacing: 0.06em;
+      line-height: 1.5;
+    }
+
+    .cat-arrow {
+      font-size: 16px;
+      color: var(--lys-brun);
+      margin-top: auto;
+      transition: transform 0.2s, color 0.2s;
+    }
+
+    .cat-card:hover .cat-arrow {
+      transform: translateX(4px);
+      color: var(--mork-brun);
+    }
+
+    /* ─── HIDDEN CARDS (search filter) ─── */
+    .cat-card[hidden] {
+      display: none;
+    }
+
+    /* ─── NO RESULTS ─── */
+    #no-results {
+      display: none;
+      padding: 40px 0;
+      font-size: 15px;
+      color: var(--lys-brun);
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid rgba(183,169,154,0.4);
+      padding: 32px clamp(20px, 5vw, 80px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--lys-brun);
+      letter-spacing: 0.06em;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer a {
+      color: var(--lys-brun);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--mork-brun);
+    }
+
+    /* ─── SKIP LINK (WCAG) ─── */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 20px;
+      background: var(--mork-brun);
+      color: white;
+      padding: 10px 18px;
+      font-size: 14px;
+      border-radius: var(--radius);
+      z-index: 1000;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      top: 10px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 700px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-right {
+        align-items: flex-start;
+        flex-direction: row;
+        gap: 24px;
+      }
+      .hero-stat { text-align: left; }
+      .hero-divider { width: 40px; height: 1px; align-self: center; }
+      nav { display: none; }
+      .categories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+    }
+
+    /* ─── FADE IN ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-left { animation: fadeUp 0.5s ease both; }
+    .hero-right { animation: fadeUp 0.5s 0.1s ease both; }
+    .cat-card {
+      animation: fadeUp 0.4s ease both;
+    }
+  </style>
 </head>
 <body>
 
+<a href="#main" class="skip-link">Hopp til innhold</a>
+
 <header>
-  <div class="container">
-    <a href="/" class="logo" aria-label="Konverter.no – forside">
-      KONVERTER<span class="logo-domene">.NO</span>
-    </a>
-    <nav class="nav-tabs" aria-label="Konverteringstype">
-      <a href="valuta.html" class="nav-tab aktiv" aria-current="page">Valuta</a>
-      <a href="enheter.html" class="nav-tab">Enheter</a>
-    </nav>
-  </div>
+  <a href="/" class="logo" aria-label="Konverter.no – hjem">
+    KONVERTER<span class="logo-konverter">.no</span>
+  </a>
+  <nav aria-label="Hurtiglenker">
+    <a href="/valuta.html">Valuta</a>
+    <a href="#kategorier">Alle kategorier</a>
+  </nav>
 </header>
 
-<main class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+<main id="main">
 
-  <!-- Konverter-kort -->
-  <div class="konverter-kort" role="region" aria-label="Valutakonvertering">
-    <div class="input-rad">
-
-      <div class="input-felt">
-        <label for="fra-valuta">Fra</label>
-        <select id="fra-valuta" aria-label="Velg valuta å konvertere fra"></select>
-      </div>
-
-      <button
-        class="bytt-knapp"
-        id="bytt-knapp"
-        aria-label="Bytt valuta"
-        title="Bytt"
-      >⇄</button>
-
-      <div class="input-felt">
-        <label for="til-valuta">Til</label>
-        <select id="til-valuta" aria-label="Velg valuta å konvertere til"></select>
-      </div>
-
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Norsk enhetsomregner</p>
+      <h1 class="hero-h1" id="hero-heading">Konverter<br><span>alt.</span></h1>
+      <p class="hero-desc">Rask og presis omregning av valuta, mål og størrelser. Gratis, uten reklame, på norsk.</p>
     </div>
-
-    <div class="input-felt" style="margin-bottom: 1rem;">
-      <label for="belop-input">Beløp</label>
-      <input
-        type="number"
-        id="belop-input"
-        value="1"
-        min="0"
-        step="any"
-        aria-describedby="resultat-region"
-      />
-    </div>
-
-    <!-- Resultat -->
-    <div
-      class="resultat-boks"
-      id="resultat-region"
-      role="region"
-      aria-live="polite"
-      aria-label="Konverteringsresultat"
-    >
-      <div class="resultat-verdi" id="resultat-verdi">–</div>
-      <div class="resultat-meta">
-        <div class="kurs-info" id="kurs-info"></div>
-        <div id="kilde-info"></div>
+    <div class="hero-right" aria-hidden="true">
+      <div class="hero-stat">
+        <div class="hero-stat-num">15+</div>
+        <div class="hero-stat-label">Kategorier</div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">180+</div>
+        <div class="hero-stat-label">Valutaer</div>
       </div>
     </div>
+  </section>
 
-    <!-- Status -->
-    <div class="status-bar" aria-live="polite" aria-atomic="true">
-      <div class="status-dot laster" id="status-dot" aria-hidden="true"></div>
-      <span id="status-tekst">Henter kurser…</span>
-    </div>
-  </div>
-
-  <!-- Valuta-oversikt -->
-  <section aria-labelledby="liste-tittel">
-    <div class="seksjon-tittel">
-      <h2 id="liste-tittel" id="liste-tittel-tekst">Alle kurser mot NOK</h2>
-    </div>
-
-    <div class="sok-wrapper">
+  <!-- SEARCH -->
+  <section class="search-section" aria-label="Søk etter konvertering">
+    <div class="search-wrap">
+      <label for="search" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Søk blant kategorier</label>
       <input
         type="search"
-        class="sok-input"
-        id="sok-input"
-        placeholder="Søk valuta eller kode…"
-        aria-label="Søk i valutaoversikt"
+        id="search"
+        placeholder="Søk – valuta, lengde, temperatur…"
         autocomplete="off"
-      />
+        aria-controls="kategorier"
+        aria-label="Søk blant konverteringskategorier"
+      >
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section class="grid-section" id="kategorier" aria-label="Konverteringskategorier">
+    <p class="grid-section-title">Kategorier</p>
+
+    <div class="categories-grid" role="list" aria-live="polite" aria-label="Filterte kategorier">
+
+      <a class="cat-card" href="/valuta.html" role="listitem" style="--stripe-color: var(--burgunder)"
+         data-search="valuta penger krypto bitcoin euro dollar nok eur usd">
+        <span class="cat-icon" aria-hidden="true">💱</span>
+        <span class="cat-name">Valuta</span>
+        <span class="cat-examples">NOK · EUR · USD · BTC · ETH</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/lengde.html" role="listitem" style="--stripe-color: var(--bla)"
+         data-search="lengde meter kilometer centimeter tommer fot mil">
+        <span class="cat-icon" aria-hidden="true">📏</span>
+        <span class="cat-name">Lengde</span>
+        <span class="cat-examples">m · km · cm · tommer · fot · mil</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/vekt.html" role="listitem" style="--stripe-color: var(--gronn)"
+         data-search="vekt masse kilo gram tonn pund ounce">
+        <span class="cat-icon" aria-hidden="true">⚖️</span>
+        <span class="cat-name">Vekt</span>
+        <span class="cat-examples">kg · g · tonn · pund · ounce</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/temperatur.html" role="listitem" style="--stripe-color: var(--burgunder)"
+         data-search="temperatur celsius fahrenheit kelvin varme kulde">
+        <span class="cat-icon" aria-hidden="true">🌡️</span>
+        <span class="cat-name">Temperatur</span>
+        <span class="cat-examples">°C · °F · K</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/areal.html" role="listitem" style="--stripe-color: var(--gul)"
+         data-search="areal kvadratmeter hektar acres kvm m2">
+        <span class="cat-icon" aria-hidden="true">⬜</span>
+        <span class="cat-name">Areal</span>
+        <span class="cat-examples">m² · km² · hektar · acres</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/volum.html" role="listitem" style="--stripe-color: var(--bla)"
+         data-search="volum liter milliliter gallon kubikk dl cl">
+        <span class="cat-icon" aria-hidden="true">🧊</span>
+        <span class="cat-name">Volum</span>
+        <span class="cat-examples">L · mL · dL · gallon · kubikk</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/hastighet.html" role="listitem" style="--stripe-color: var(--mork-brun)"
+         data-search="hastighet fart km/t mph knop mach">
+        <span class="cat-icon" aria-hidden="true">🚀</span>
+        <span class="cat-name">Hastighet</span>
+        <span class="cat-examples">km/t · mph · knop · m/s · mach</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/trykk.html" role="listitem" style="--stripe-color: var(--gronn)"
+         data-search="trykk pascal bar psi atm lufttrykk">
+        <span class="cat-icon" aria-hidden="true">🌀</span>
+        <span class="cat-name">Trykk</span>
+        <span class="cat-examples">Pa · bar · psi · atm · mmHg</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/energi.html" role="listitem" style="--stripe-color: var(--gul)"
+         data-search="energi joule kalori kilowattime kwh kalorier">
+        <span class="cat-icon" aria-hidden="true">⚡</span>
+        <span class="cat-name">Energi</span>
+        <span class="cat-examples">J · kJ · kcal · kWh · BTU</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/effekt.html" role="listitem" style="--stripe-color: var(--burgunder)"
+         data-search="effekt watt kilowatt hestekrefter hp">
+        <span class="cat-icon" aria-hidden="true">🔋</span>
+        <span class="cat-name">Effekt</span>
+        <span class="cat-examples">W · kW · MW · hestekrefter · BTU/t</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/tempo.html" role="listitem" style="--stripe-color: var(--gronn)"
+         data-search="tempo løping min/km min/mile pace sport">
+        <span class="cat-icon" aria-hidden="true">🏃</span>
+        <span class="cat-name">Tempo</span>
+        <span class="cat-examples">min/km · min/mile · km/t · mph</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/lys.html" role="listitem" style="--stripe-color: var(--gul)"
+         data-search="lys lumen lux candela lysstyrke belysning">
+        <span class="cat-icon" aria-hidden="true">💡</span>
+        <span class="cat-name">Lysstyrke</span>
+        <span class="cat-examples">lm · lx · cd · fc</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/vinkel.html" role="listitem" style="--stripe-color: var(--bla)"
+         data-search="vinkel grader radianer grad geometri">
+        <span class="cat-icon" aria-hidden="true">📐</span>
+        <span class="cat-name">Vinkel</span>
+        <span class="cat-examples">° · rad · grad · omdreininger</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/tid.html" role="listitem" style="--stripe-color: var(--lys-brun)"
+         data-search="tid sekunder minutter timer dager uker måneder år">
+        <span class="cat-icon" aria-hidden="true">⏱️</span>
+        <span class="cat-name">Tid</span>
+        <span class="cat-examples">s · min · t · dager · uker · år</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/data.html" role="listitem" style="--stripe-color: var(--mork-brun)"
+         data-search="data bytes megabytes gigabytes terabytes bits lagring">
+        <span class="cat-icon" aria-hidden="true">💾</span>
+        <span class="cat-name">Datamengde</span>
+        <span class="cat-examples">B · KB · MB · GB · TB · Mbit</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <a class="cat-card" href="/mengde.html" role="listitem" style="--stripe-color: var(--burgunder)"
+         data-search="mengde flow liter per sekund kubikk per time">
+        <span class="cat-icon" aria-hidden="true">🌊</span>
+        <span class="cat-name">Strømning</span>
+        <span class="cat-examples">L/s · m³/t · gal/min · CFM</span>
+        <span class="cat-arrow" aria-hidden="true">→</span>
+      </a>
+
     </div>
 
-    <div
-      class="valuta-grid"
-      id="valuta-grid"
-      role="list"
-      aria-label="Valutaoversikt"
-      aria-live="polite"
-    >
-      <div class="laster-melding" aria-busy="true">Henter kurser…</div>
-    </div>
+    <p id="no-results" role="status" aria-live="polite">Ingen kategorier funnet for «<span id="no-results-term"></span>».</p>
+
   </section>
 
 </main>
 
 <footer>
-  <div class="container">
-    Kurser fra <a href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener">Exchange API</a> (fiat) og <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko</a> (krypto). Oppdateres daglig. Ikke finansiell rådgivning.
-  </div>
+  <span>© 2025 Konverter.no</span>
+  <span>Gratis · Uten reklame · På norsk</span>
+  <a href="mailto:hei@konverter.no">Kontakt</a>
 </footer>
 
-<script src="app.js"></script>
+<script>
+  // ─── SØKEFILTER ───
+  const searchInput = document.getElementById('search');
+  const cards = document.querySelectorAll('.cat-card');
+  const noResults = document.getElementById('no-results');
+  const noResultsTerm = document.getElementById('no-results-term');
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach(card => {
+      const haystack = (
+        card.dataset.search + ' ' +
+        card.querySelector('.cat-name').textContent + ' ' +
+        card.querySelector('.cat-examples').textContent
+      ).toLowerCase();
+
+      if (!q || haystack.includes(q)) {
+        card.hidden = false;
+        visible++;
+      } else {
+        card.hidden = true;
+      }
+    });
+
+    if (visible === 0 && q) {
+      noResults.style.display = 'block';
+      noResultsTerm.textContent = searchInput.value.trim();
+    } else {
+      noResults.style.display = 'none';
+    }
+  });
+
+  // ─── ANIMATION DELAY PER KORT ───
+  document.querySelectorAll('.cat-card').forEach((card, i) => {
+    card.style.animationDelay = `${i * 0.03}s`;
+  });
+</script>
+
 </body>
 </html>
