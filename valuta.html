@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konverter.no – Valutakonvertering</title>
+  <meta name="description" content="Konverter mellom alle verdens valutaer og kryptovaluta. Daglige kurser, ingen registrering." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a href="/" class="logo" aria-label="Konverter.no – forside">
+      KONVERTER<span class="logo-domene">.NO</span>
+    </a>
+    <nav class="nav-tabs" aria-label="Konverteringstype">
+      <a href="valuta.html" class="nav-tab aktiv" aria-current="page">Valuta</a>
+      <a href="/" class="nav-tab">Alle kategorier</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container" style="padding-top: 2rem; padding-bottom: 2rem;">
+
+  <!-- Konverter-kort -->
+  <div class="konverter-kort" role="region" aria-label="Valutakonvertering">
+    <div class="input-rad">
+
+      <div class="input-felt">
+        <label for="fra-valuta">Fra</label>
+        <select id="fra-valuta" aria-label="Velg valuta å konvertere fra"></select>
+      </div>
+
+      <button
+        class="bytt-knapp"
+        id="bytt-knapp"
+        aria-label="Bytt valuta"
+        title="Bytt"
+      >⇄</button>
+
+      <div class="input-felt">
+        <label for="til-valuta">Til</label>
+        <select id="til-valuta" aria-label="Velg valuta å konvertere til"></select>
+      </div>
+
+    </div>
+
+    <div class="input-felt" style="margin-bottom: 1rem;">
+      <label for="belop-input">Beløp</label>
+      <input
+        type="number"
+        id="belop-input"
+        value="1"
+        min="0"
+        step="any"
+        aria-describedby="resultat-region"
+      />
+    </div>
+
+    <!-- Resultat -->
+    <div
+      class="resultat-boks"
+      id="resultat-region"
+      role="region"
+      aria-live="polite"
+      aria-label="Konverteringsresultat"
+    >
+      <div class="resultat-verdi" id="resultat-verdi">–</div>
+      <div class="resultat-meta">
+        <div class="kurs-info" id="kurs-info"></div>
+        <div id="kilde-info"></div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="status-bar" aria-live="polite" aria-atomic="true">
+      <div class="status-dot laster" id="status-dot" aria-hidden="true"></div>
+      <span id="status-tekst">Henter kurser…</span>
+    </div>
+  </div>
+
+  <!-- Valuta-oversikt -->
+  <section aria-labelledby="liste-tittel">
+    <div class="seksjon-tittel">
+      <h2 id="liste-tittel" id="liste-tittel-tekst">Alle kurser mot NOK</h2>
+    </div>
+
+    <div class="sok-wrapper">
+      <input
+        type="search"
+        class="sok-input"
+        id="sok-input"
+        placeholder="Søk valuta eller kode…"
+        aria-label="Søk i valutaoversikt"
+        autocomplete="off"
+      />
+    </div>
+
+    <div
+      class="valuta-grid"
+      id="valuta-grid"
+      role="list"
+      aria-label="Valutaoversikt"
+      aria-live="polite"
+    >
+      <div class="laster-melding" aria-busy="true">Henter kurser…</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    Kurser fra <a href="https://github.com/fawazahmed0/exchange-api" target="_blank" rel="noopener">Exchange API</a> (fiat) og <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko</a> (krypto). Oppdateres daglig. Ikke finansiell rådgivning.
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
