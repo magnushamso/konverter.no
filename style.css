@@ -335,16 +335,50 @@ header .container {
   min-width: 70px;
 }
 
-/* Krypto-badge */
-.crypto-badge {
-  font-size: 0.65rem;
+/* Grid-gruppetittel */
+.grid-gruppe-tittel {
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 0.1rem 0.4rem;
-  border-radius: 3px;
-  background: var(--gul);
-  color: var(--mork-brun);
+  letter-spacing: 0.12em;
+  color: var(--farge-tekst-dempet);
+  padding: 0.75rem 0.9rem 0.4rem;
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--farge-kant);
+  margin-top: 0.25rem;
+}
+
+.grid-gruppe-tittel:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+
+/* Flagg */
+.valuta-flagg {
+  font-size: 1.2rem;
   flex-shrink: 0;
+  width: 1.6rem;
+  text-align: center;
+}
+
+.crypto-ikon {
+  font-size: 0.85rem;
+  color: var(--farge-tekst-dempet);
+}
+
+/* Land */
+.valuta-land {
+  font-size: 0.82rem;
+  color: var(--farge-tekst);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Endring */
+.endring {
+  font-size: 0.72rem;
+  margin-left: 0.3rem;
 }
 
 /* Tabs (Fiat / Krypto) */
