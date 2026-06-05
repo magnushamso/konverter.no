@@ -144,9 +144,9 @@ function byggSelect(elId, defaultVerdi) {
   grp1.label = '— Fiat-valuta';
 
   // Prioriterte øverst
-  const prioritert = PRIORITERT_FIAT.filter(k => fiatKurser[k]);
+  const prioritert = PRIORITERT_FIAT.filter(k => fiatKurser[k] && FIAT_INFO[k]);
   const resten = Object.keys(fiatKurser)
-    .filter(k => !PRIORITERT_FIAT.includes(k))
+    .filter(k => !PRIORITERT_FIAT.includes(k) && FIAT_INFO[k])
     .sort((a, b) => {
       const la = FIAT_INFO[a]?.land || a;
       const lb = FIAT_INFO[b]?.land || b;
@@ -238,6 +238,7 @@ function renderGrid() {
   // Fiat-rader
   const fiatRader = Object.keys(fiatKurser)
     .filter(k => {
+      if (!FIAT_INFO[k]) return false; // skjul valutaer uten fullstendig info
       if (!søk) return true;
       const info = FIAT_INFO[k];
       return k.toLowerCase().includes(søk)
